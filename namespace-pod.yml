@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: declarative-pod
+  namespace: mynamespace
+spec:
+  containers:
+  - name: nginxcontainer
+    image: nginx
