@@ -1,0 +1,30 @@
+# declarative manifest to deploy a pod running httpd
+# run it with: kubectl apply -f declarative-pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-affinity-pod
+spec:
+  affinity:
+    nodeAffinity: 
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: environment
+            operator: In
+            values:
+            - production
+            - test
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80

@@ -1,0 +1,14 @@
+# declarative manifest to deploy a pod running httpd
+# run it with: kubectl apply -f declarative-pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-selector-pod
+spec:
+  nodeSelector:
+    environment: production
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
