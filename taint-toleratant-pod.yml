@@ -1,0 +1,15 @@
+# declarative manifest to deploy a pod running httpd
+# run it with: kubectl apply -f declarative-pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: taint-tolerant-pod
+spec:
+  containers:
+    - name: httpdcontainer
+      image: httpd
+  tolerations:
+  - key: type
+    operator: Equal
+    value: gpu
+    effect: NoSchedule
