@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-replica-set
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: simplilearn
+  template:
+    metadata:
+      labels:
+        app: simplilearn
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
