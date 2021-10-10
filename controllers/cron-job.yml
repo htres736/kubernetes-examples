@@ -1,0 +1,15 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cronjob-dbbackups
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup-db
+            image: alpine
+            command: ['echo', 'db', 'backed', 'up']
+          restartPolicy: Never

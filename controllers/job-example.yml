@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: print-hello
+spec:
+  completions: 5
+  template:
+    spec:
+      containers:
+      - name: print-hello
+        image: alpine
+        command: ["echo", "hello"]
+      restartPolicy: Never

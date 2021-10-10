@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: print-simplilearn
+spec:
+  activeDeadlineSeconds: 3600
+  template:
+    spec:
+      containers:
+      - name: print-simplilearn
+        image: alpine
+        command: ["echo", "hello", "simplilearn"]
+      restartPolicy: Never
