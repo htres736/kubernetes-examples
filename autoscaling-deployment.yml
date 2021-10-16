@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: autoscale-dep
+  name: autoscale-dep
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: autoscale-dep
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: autoscale-dep
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: 
+         requests: 
+          cpu: 100m
+         limits: 
+          cpu: 100m
