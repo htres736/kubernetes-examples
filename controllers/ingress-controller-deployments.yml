@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dep1
+  name: dep1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dep1
+  template:
+    metadata:
+      labels:
+        app: dep1
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dep2
+  name: dep2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dep2
+  template:
+    metadata:
+      labels:
+        app: dep2
+    spec:
+      containers:
+      - image: httpd
+        name: httpd
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dep3
+  name: dep3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dep3
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: dep3
+    spec:
+      containers:
+      - env:
+        - name: TOMCAT_PASSWORD
+          value: simplilearn
+        image: bitnami/tomcat
+        name: tomcat
+        ports:
+        - containerPort: 8080
