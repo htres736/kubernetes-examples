@@ -1,0 +1,10 @@
+apiVersion: v1                  
+kind: Pod                       
+metadata:                       
+  name: private-registry-pod
+spec:                            
+  containers:
+  - name: nginxcontainer
+    image: private-registry.com/nginx
+  imagePullSecrets:
+  - name: registry-credentials

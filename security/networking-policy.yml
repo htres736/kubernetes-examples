@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+ name: mynetworkpolicy
+spec: 
+ podSelector: 
+  matchLabels: 
+   app: test-dep 
+ policyTypes:
+ - Ingress
+ ingress: 
+ - from: 
+   - podSelector:
+      matchLabels: 
+        app: simplilearn
+   ports:
+   - port: 80
