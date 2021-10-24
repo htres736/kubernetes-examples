@@ -1,6 +1,9 @@
 Step by step commands google doc:
 https://docs.google.com/document/d/1oW0sPjLoBvcv1V7_YBxlbXiCGm_0PW7I8Xk3ltJjSog/edit#heading=h.29pgcopranu
 
+AKS google doc:
+https://docs.google.com/document/d/1KtnlBIjmyf7XhLB642N6nnglHGBEyg4swbqALCu0f6Y/edit
+
 # Initialize cluster
 
 Note: All commands to be run as root ( or with sudo)
