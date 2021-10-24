@@ -2028,3 +2028,434 @@ Additional Topics (if time permits):
 
 1. k8s dashboard
 2. Helm charts &lt;- difficult as time may not be enough
+
+<!-----
+NEW: Check the "Suppress top comment" option to remove this info from the output.
+
+Conversion time: 4.16 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β31
+* Sun Oct 24 2021 09:22:14 GMT-0700 (PDT)
+* Source doc: Copy of AKS
+* Tables are currently converted to HTML tables.
+* This document has images: check for >>>>>  gd2md-html alert:  inline image link in generated source and store images to your server. NOTE: Images in exported zip file from Google Docs may not appear in  the same order as they do in your doc. Please check the images!
+
+
+WARNING:
+You have 3 H1 headings. You may want to use the "H1 -> H2" option to demote all headings by one level.
+
+----->
+
+
+<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 16.</p>
+<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
+
+<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
+<a href="#gdcalert2">alert2</a>
+<a href="#gdcalert3">alert3</a>
+<a href="#gdcalert4">alert4</a>
+<a href="#gdcalert5">alert5</a>
+<a href="#gdcalert6">alert6</a>
+<a href="#gdcalert7">alert7</a>
+<a href="#gdcalert8">alert8</a>
+<a href="#gdcalert9">alert9</a>
+<a href="#gdcalert10">alert10</a>
+<a href="#gdcalert11">alert11</a>
+<a href="#gdcalert12">alert12</a>
+<a href="#gdcalert13">alert13</a>
+<a href="#gdcalert14">alert14</a>
+<a href="#gdcalert15">alert15</a>
+<a href="#gdcalert16">alert16</a>
+
+<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
+
+
+**Create a Kubernetes Cluster Using AKS**
+
+ 
+
+** **
+
+**Steps to be followed:**
+
+
+
+1. Setting up the prerequisites for configuring an AKS cluster
+2. Creating a Kubernetes cluster using AKS service
+
+     
+
+
+**Step** **1:** **Setting up the prerequisites for configuring an AKS cluster**
+
+
+        1.1  Navigate to the Azure Portal home screen and click on the **Subscriptions **tab
+
+
+        
+
+<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image1.png "image_tooltip")
+
+
+
+        1.2  On Subscriptions page, click on **Vocareum-SL-20 **under **Subscription name**
+
+
+        
+
+<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image2.png "image_tooltip")
+
+
+
+        1.3  Inside the Vocareum-SL-20 subscription, click on the **Resource groups** under **Settings**
+
+
+        
+
+<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image3.png "image_tooltip")
+
+
+
+        1.4  On the Resource groups page, click on the resource group name to navigate inside the resource group
+
+
+```
+Note: Notice that the resource group name will be different for everyone, but the Subscription name will be same i.e. Vocareum-SL-20.
+```
+
+
+
+        
+
+<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image4.png "image_tooltip")
+
+
+
+        1.5  Inside the resource group, click on the **Create **button and select **Marketplace**
+
+
+        
+
+<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image5.png "image_tooltip")
+
+
+
+        1.6  In the search box type **log analytics workspace **and select the **Log Analytics Workspace** resource from the dropdown
+
+
+        
+
+<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image6.png "image_tooltip")
+
+
+
+        1.7  On Log Analytics Workspace page, click on the **Create **button to create this resource
+
+
+        
+
+<p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image7.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image7.png "image_tooltip")
+
+
+
+        1.8  On the Create Log Analytics workspace page, enter the following details and click on the **Review + Create** button:
+
+
+        
+
+<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image8.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image8.png "image_tooltip")
+
+
+
+    **Name:** **ContainerLogAnalytics**
+
+
+    **Region: West US**
+
+
+```
+Note: Keep the default value for other fields.
+```
+
+
+
+        1.9  Once the validation is complete, click on the **Create **button
+
+
+        
+
+<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image9.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image9.png "image_tooltip")
+
+
+
+    1.10 Check the newly created resource on the **Resource group** page
+
+
+    
+
+<p id="gdcalert10" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image10.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert11">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image10.png "image_tooltip")
+
+
+**Step 2: Creating a Kubernetes cluster using AKS service**
+
+
+        2.1  On Create a resource page, search for **Kubernetes Service** and select the **Kubernetes Service **resource from the dropdown
+
+
+        
+
+<p id="gdcalert11" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image11.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert12">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image11.png "image_tooltip")
+
+
+
+        2.2  On Kubernetes Service page, click on the **Create **button to create this resource
+
+
+        2.3  On Create Kubernetes Service page, enter the following details under the **Basics **tab and click on the **Integrations** tab:
+
+
+    **Kubernetes cluster name:** **SL-Container**
+
+
+```
+Note: Keep the default value for all the other fields. Also, make sure the Region is set as West US as all the resources should be in the same region.
+```
+
+
+
+    ** **
+
+
+```
+Note: AKS does not support Kubernetes 1.20 version yet.
+```
+
+
+** **
+
+<p id="gdcalert12" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image12.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert13">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image12.png "image_tooltip")
+
+
+
+        2.4  On the Integrations tab, select the **Enabled **option for** Continuous monitoring **and make sure the **Log Analytics workspace** is using **ContainerLogAnalytics**. Click on the **Review + Create** button
+
+
+        
+
+<p id="gdcalert13" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image13.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert14">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image13.png "image_tooltip")
+
+
+
+        2.5  Once the validation is complete, click on the **Create **button
+
+
+        
+
+<p id="gdcalert14" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image14.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert15">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image14.png "image_tooltip")
+
+
+
+        2.6  Check the resource on the **Resource group** page and click on the **SL-Cluster** resource
+
+
+        
+
+<p id="gdcalert15" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image15.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert16">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image15.png "image_tooltip")
+
+
+
+        2.7  Click on Node Pool from left-side panel and check the Node pool and Nodes tab to verify the nodes in the cluster
+
+
+        
+
+<p id="gdcalert16" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image16.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert17">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image16.png "image_tooltip")
+
+
+
+# 
+
+
+# Lab exercises
+
+
+## Create namespace:
+
+
+```
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: myns
+
+```
+
+
+
+## Create pod:
+
+
+```
+kind: Pod
+apiVersion: v1
+metadata:
+  name: first-pod
+spec:
+  containers:
+    - name: simplilearn
+      image: nginx
+```
+
+
+
+## Create Deployment
+
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: first-deployment
+  namespace: myns
+  labels:
+    app: first-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: first-deployment
+  template:
+    metadata:
+      labels:
+        app: first-deployment
+    spec:
+      containers:
+      - name: first-deployment
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+
+
+
+## Expose Deployment
+
+
+```
+kubectl expose deployment -n myns first-deployment --name first-lb-svc --port 80 --type LoadBalancer
+```
+
+
+Identify the load Balancer IP address of the service
+
+
+```
+kubectl get svc -n  myns first-lb-svc
+
+
+
+```
+NAME           TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)        AGE
+first-lb-svc   LoadBalancer   10.0.31.236   52.161.21.175   80:32518/TCP   2m48s
+```
+
+
+Browse the application on the load balancer IP Address on the browser of your laptop/machine
+
+
+# Dynamic Storage
+
+
+```
+# create PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myclaim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: default
+
+---
+# create a pod and mount PVC
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pv-pvc
+spec:
+  containers:
+  - image: nginx
+    name: nginx-custom-webapp
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: mywebpage
+      mountPath: /usr/share/nginx/html
+  volumes:
+  - name: mywebpage
+    persistentVolumeClaim:
+     claimName: myclaim
+```
+
