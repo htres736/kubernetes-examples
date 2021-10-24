@@ -2,13 +2,30 @@ Step by step commands google doc:
 https://docs.google.com/document/d/1oW0sPjLoBvcv1V7_YBxlbXiCGm_0PW7I8Xk3ltJjSog/edit#heading=h.29pgcopranu
 
 
-Initialize cluster
+<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 0.</p>
+<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
+
+<p style="color: red; font-weight: bold">Links to alert messages:</p>
+<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
+
+
+
+# Initialize cluster
+
 Note: All commands to be run as root ( or with sudo)
+
 On Master
+
+
+```
 kubeadm init --node-name master
+```
 
 
 Output:
+
+
+```
 root@ip-172-31-19-105:~# kubeadm init --node-name master
 I1002 14:49:51.860725   12621 version.go:254] remote version is much newer: v1.22.2; falling back to: stable-1.20
 [init] Using Kubernetes version: v1.20.11
@@ -88,54 +105,99 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join 172.31.19.105:6443 --token 219bkb.md2830ygm2ydyrh2 \
     --discovery-token-ca-cert-hash sha256:6fc037aaff7794d0b28a8796a03f87a6cad6ac0b965402524c50c4a57e91efc8 
 
+```
 
 
 
 
 Add kube config file
+
   On Master
+
+
+```
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
 
-Install CNI
+
+
+# Install CNI
+
 On Master
+
+
+```
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+```
 
 
-Optional (auto completion)
+
+# Optional (auto completion)
+
 On Master
 
+
+```
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 source .bashrc 
+```
 
 
 
-Add Nodes
-On Both Nodes, execute below command:
+# Add Nodes
 
+<span style="text-decoration:underline;">On Both Nodes</span>, execute below command:
+
+
+```
 kubeadm join <IP Address>:6443 --token <token> \
     --discovery-token-ca-cert-hash <some hash>
+```
 
 
 
-Verify the cluster setup:
+# Verify the cluster setup:
+
+
+```
 kubectl get nodes
+```
+
+
 Output
 
+
+```
 root@ip-172-31-19-105:~# kubectl get nodes
 NAME               STATUS   ROLES                  AGE     VERSION
 ip-172-31-19-129   Ready    <none>                 3m21s   v1.20.5
 ip-172-31-20-26    Ready    <none>                 3m28s   v1.20.5
 master             Ready    control-plane,master   10m     v1.20.5
+```
 
 
-Pods
-Create a pod
+
+# Pods
+
+
+## Create a pod
+
+
+```
 kubectl run myfirstpod --image=httpd --port 80
 kubectl get pods -o wide
-Create a pod Declaratively:
+```
+
+
+
+## Create a pod Declaratively:
+
 pod.yaml 
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -148,28 +210,57 @@ spec:
                   name: mynginxcontainer
                   ports:
                           - containerPort: 80
+```
 
 
+
+```
 kubectl apply -f pod.yaml
+```
 
 
-Describe a resource
+
+# Describe a resource
+
+
+```
 kubectl describe <resource type> <resource name>
 kubectl describe nodes master 
+```
 
-Namespace
-Create namespace
-Option 1: Imperatively
+
+
+# Namespace
+
+
+## Create namespace
+
+
+### Option 1: Imperatively
+
+
+```
 kubectl create namespace mynamespace
+```
 
-Options 2: Declaratively
 
+
+### Options 2: Declaratively
+
+
+```
 apiVersion: v1
 kind: Namespace
 metadata:
   name: mynamespace
+```
 
-Create Pod in a namespace
+
+
+## Create Pod in a namespace
+
+
+```
 root@ip-172-31-19-105:~/demo/pod# cat namespace-pod.yaml 
 apiVersion: v1                  # version of api-resource
 kind: Pod                       # api-resourse 
@@ -181,34 +272,104 @@ spec:                            # configuration of the api-resource
   - name: nginxcontainer
     image: nginx
 
+```
 
 
 
-List the pods in a namespace
+## List the pods in a namespace
+
+
+```
 kubectl get pod -n mynamespace 
-Delete Namespace
-kubectl delete namespaces mynamespace
-Generate YAML template
-To generate YAML template from imperative command
-kubectl run podname --image nginx --port 80 --dry-run -o yaml > pod.yaml
-Labels and Selectors
-Labels
-Apply Labels
-kubectl label nodes <one of the nodes’ name> environment=production location=usa
-kubectl label nodes <the other nodes’ name> environment=production location=india
-kubectl label nodes <master nodes’ name> environment=test location=usa
-Get nodes with label information
-kubectl get nodes --show-labels
-Delete a label
-kubectl label node master environment-
-Update a label
-kubectl label node master --overwrite location=usa
-Selector
-Select all the nodes with environment set to production
-kubectl get nodes -l environment=production
+```
 
-Scheduling
-nodeName
+
+
+## Delete Namespace
+
+
+```
+kubectl delete namespaces mynamespace
+```
+
+
+
+# Generate YAML template
+
+To generate YAML template from imperative command
+
+
+```
+kubectl run podname --image nginx --port 80 --dry-run -o yaml > pod.yaml
+```
+
+
+
+# Labels and Selectors
+
+
+# Labels
+
+
+## Apply Labels
+
+
+```
+kubectl label nodes <one of the nodes' name> environment=production location=usa
+kubectl label nodes <the other nodes' name> environment=production location=india
+kubectl label nodes <master nodes' name> environment=test location=usa
+```
+
+
+
+## Get nodes with label information
+
+
+```
+kubectl get nodes --show-labels
+```
+
+
+
+## Delete a label
+
+
+```
+kubectl label node master environment-
+```
+
+
+
+## Update a label
+
+
+```
+kubectl label node master --overwrite location=usa
+```
+
+
+
+# Selector
+
+Select all the nodes with environment set to production
+
+
+```
+kubectl get nodes -l environment=production
+```
+
+
+
+# 
+
+
+# Scheduling
+
+
+# nodeName
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -223,10 +384,14 @@ spec:
     name: pod
     ports:
     - containerPort: 80
+```
 
 
-nodeSelector
 
+# nodeSelector
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -240,9 +405,14 @@ spec:
     name: pod
     ports:
     - containerPort: 80
+```
 
 
-Affinity
+
+# Affinity
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -272,15 +442,35 @@ spec:
             operator: In
             values:
             - ssd
+```
 
-Taints and Tolerations
-Effects:
-NoSchedule
-PreferNoSchedule
-NoExecute
-Taint a node:
+
+
+# Taints and Tolerations
+
+
+## Effects:
+
+
+
+1. NoSchedule
+2. PreferNoSchedule
+3. NoExecute
+
+
+## Taint a node:
+
+
+```
 kubectl taint node ip-172-31-19-129 type=gpu:NoSchedule
-Tolerate the taint in a Pod
+```
+
+
+
+## Tolerate the taint in a Pod
+
+
+```
 apiVersion: v1                  
 kind: Pod                       
 metadata:                       
@@ -294,12 +484,23 @@ spec:
     operator: Equal
     value: gpu
     effect: NoSchedule
+```
 
-Untaint a node:
+
+
+## Untaint a node:
+
+
+```
 kubectl taint node ip-172-31-19-129 type=gpu:NoSchedule-
+```
 
-Multi Container Pod
 
+
+# Multi Container Pod
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -315,28 +516,60 @@ spec:
     image: tomcat
     ports:
     - containerPort: 8080
+```
 
 
 Verify that pod is running
+
+
+```
 kubectl get pods -o wide
+```
+
 
 Access applications inside the pods:
+
+
+```
 curl <pod-IP>
 curl <pod-IP>:8080
+```
 
-Logs 
+
+
+# Logs 
+
 Print logs of specific containers in a pod:
+
+
+```
 kubectl logs [-f] <Podname> [containername]
 kubectl logs -f multi-container podname
+```
+
 
 Print logs of all containers in a Pod
-kubectl logs -f --all-containers multi-container
 
-Customization
-Environment variables
+
+```
+kubectl logs -f --all-containers multi-container
+```
+
+
+
+# Customization
+
+
+# Environment variables
+
 Create a pod based on httpd image, with the below environment variables:
-NAME=”yourname”
-LOCATION=”yourcountry”
+
+
+
+1. NAME=”yourname”
+2. LOCATION=”yourcountry”
+
+    ```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -354,8 +587,15 @@ spec:
     image: httpd
     imagePullPolicy: Always
     name: custom-env-pod
+```
 
-Custom Commands
+
+
+
+# Custom Commands
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -366,10 +606,19 @@ spec:
   - image: alpine 
     name: alpine
     command: ['sh','-c','echo "Hello Kubernetes" && sleep 100']
+```
 
 
-Resource Limits
+
+# 
+
+
+# Resource Limits
+
 Pods with resource limits:
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -383,9 +632,17 @@ spec:
         cpu: 0.5
       limits:
         cpu: 1
+```
 
-Controllers
-ReplicaSet
+
+
+# Controllers
+
+
+# ReplicaSet
+
+
+```
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata: 
@@ -403,18 +660,48 @@ spec:
       containers:
       - name: nginx
         image: nginx
+```
+
 
 Check the running replicaset:
+
+
+```
 kubectl get rs        
+```
+
+
 Check the pods managed by the ReplicaSet (should result in 3 pods):
+
+
+```
 kubectl get pods -l app=simplilearn
+```
+
+
 Change the scale of the replicaset
+
+
+```
 kubectl scale replicaset my-rs --replicas=5
+```
+
+
 Check the pods managed by the ReplicaSet (should result in 5 pods):
+
+
+```
 kubectl get pods -l app=simplilearn
+```
 
-Deployment
 
+
+
+
+# Deployment
+
+
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
@@ -432,32 +719,94 @@ spec:
       containers:
       - name: nginx
         image: nginx:1.19
+```
 
 
 List the deployment:
+
+
+```
 kubectl get deployments
+```
+
+
 List pods in the deployment:
+
+
+```
 kubectl get pod
+```
+
+
 List the replicasets (which are part of deployment)
+
+
+```
 kubectl get rs
+```
+
+
 Get details of a Deployment
+
+
+```
 kubectl describe deployments.apps my-dep 
+```
+
+
 Scale a deployment
+
+
+```
 kubectl scale deployment my-dep --replicas=5
+```
+
+
 Rollout a new version
+
+
+```
 kubectl set image deployment my-dep nginx=nginx:1.20 --record
+```
+
+
 Check the rollout history
+
+
+```
 kubectl rollout history deployment my-dep 
+```
+
+
 Rollout another new version
+
+
+```
 kubectl set image deployment my-dep nginx=nginx:1.21 --record
+```
+
+
 Check the rollout history
+
+
+```
 kubectl rollout history deployment my-dep 
+```
+
+
 Rollback to a specific version
+
+
+```
 kubectl rollout undo deployment my-dep --to-revision 1
+```
 
 
-DaemonSet
 
+# DaemonSet
+
+
+```
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -475,25 +824,79 @@ spec:
   selector:
     matchLabels:
       app: ds
+```
+
 
 List Daemonsets
+
+
+```
 kubectl get ds
+```
+
+
 Describe Daemonset
+
+
+```
 kubectl describe daemonsets.apps my-ds 
+```
+
+
 Check the pods in the daemonset
+
+
+```
 kubectl get pods -o wide
-Services
-ClusterIP 
+```
+
+
+
+# Services
+
+
+# ClusterIP 
+
+
+```
 kubectl expose deployment my-dep --name my-svc --port 80
-NodePort 
+```
+
+
+
+# NodePort 
+
+
+```
 kubectl expose deployment my-dep --name my-nodeport-svc --port 80 --type NodePort
-LoadBalancer 
+```
+
+
+
+# LoadBalancer 
+
+
+```
 kubectl expose deployment my-dep --name my-lb-svc --port 80 --type LoadBalancer
+```
+
+
 List services
+
+
+```
 kubectl get svc
+```
 
 
-Jobs
+
+# 
+
+
+# Jobs
+
+
+```
 apiVersion: batch/v1
 kind: Job
 metadata: 
@@ -507,8 +910,14 @@ spec:
        image: alpine
        command: ['echo','hello']
      restartPolicy: Never
+```
 
-CronJobs
+
+
+# CronJobs
+
+
+```
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata: 
@@ -524,21 +933,63 @@ spec:
             image: alpine
             command: ['echo','hello','simplilearn']
           restartPolicy: Never
+```
 
 
-Secrets
-Manage Secrets
+
+# 
+
+
+# Secrets
+
+
+# Manage Secrets
+
 Create a secret
+
+
+```
 kubectl create secret generic mysecret --from-literal password=simplilearn --from-literal username=db_user
+```
+
+
 List all secrets
+
+
+```
 kubectl get secrets mysecret
+```
+
+
 Details about a secret
+
+
+```
 kubectl describe secrets mysecret
+```
+
+
 Get the encoded data stored in secret
+
+
+```
 kubectl get secrets mysecret -o yaml
+```
+
+
 Decode the retrieved data
+
+
+```
 echo c2Vuc2l0aXZlcGFzc3dvcmQ= | base64 -d
-Use Secret in Pod
+```
+
+
+
+# Use Secret in Pod
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -563,23 +1014,58 @@ spec:
     ports:
     - containerPort: 3306
 
+```
 
 
 
-ConfigMap
-Create a file called max_packets.cnf with following content:
+# 
+
+
+# ConfigMap
+
+Create a file called `max_packets.cnf` with following content:
+
+
+```
 [mysqld]
 max_allowed_packet = 100M
+```
+
 
 Create configmap to store the contents of the above file
+
+
+```
 kubectl create configmap mysql-config --from-file max_packets.cnf
+```
+
+
 Describe the configmap
+
+
+```
 kubectl describe configmaps mysql-config
-Exec: Connect to container
+```
+
+
+
+# Exec: Connect to container
+
+
+```
 kubectl exec my-dep-5cd7595d84-47qxj -- printenv
 kubectl exec -it my-dep-5cd7595d84-47qxj -- /bin/bash
-Volume Storage
-hostPath
+```
+
+
+
+# Volume Storage
+
+
+# hostPath
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -600,15 +1086,35 @@ spec:
     hostPath:
       path: /tmp/data
       type: DirectoryOrCreate
+```
 
 
-ConfigMap
-Create index.html
+
+# 
+
+
+# ConfigMap
+
+Create `index.html`
+
+
+```
 Welcome to Simplilearn
+```
+
 
 Store the index.html in configmap
+
+
+```
 kubectl create cm customwebpage --from-file index.html
+```
+
+
 Mount the configmap as a volume 
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -632,13 +1138,33 @@ spec:
       items: 
       - key: index.html
         path: index.html
+```
+
 
 Find the IP address of the pod
+
+
+```
 kubectl get pods nginx-custom-webapp -o wide
+```
+
+
 Check the web application
+
+
+```
 curl 192.168.39.173
-Persistent Volumes
-PV
+```
+
+
+
+# Persistent Volumes
+
+
+# PV
+
+
+```
 apiVersion: v1
 kind: PersistentVolume
 metadata: 
@@ -651,8 +1177,14 @@ spec:
   type: DirectoryOrCreate
  accessModes:
  - ReadWriteOnce
+```
 
-PVC
+
+
+# PVC
+
+
+```
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata: 
@@ -663,8 +1195,14 @@ spec:
    storage: 500Mi
  accessModes: 
  - ReadWriteOnce
+```
 
-PVC mounts in Pods
+
+
+# PVC mounts in Pods
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -682,25 +1220,59 @@ spec:
   - name: mywebpage
     persistentVolumeClaim: 
      claimName: pvc1
+```
+
 
 On the Node where pod is scheduled, populate the file “/tmp/data/index.html” with some content
-sudo echo "Hi There. how are you" > index.html
-Check the app in the pod
-curl <pod-ip-address>
-Ingress
-Install Ingress controller
 
+
+```
+sudo echo "Hi There. how are you" > index.html
+```
+
+
+Check the app in the pod
+
+
+```
+curl <pod-ip-address>
+```
+
+
+
+# Ingress
+
+
+# Install Ingress controller
+
+
+```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/baremetal/deploy.yaml
+```
 
 
 Get nginx controller endpoint
+
+
+```
 kubectl get svc -n ingress-nginx ingress-nginx-controller
+
+
+```
 Output
 NAME                       TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
 ingress-nginx-controller   NodePort   10.101.148.251   <none>        80:32043/TCP,443:30676/TCP   24m
+```
 
-Deploy BackEnd Services
-Create Deployments
+
+
+# Deploy BackEnd Services
+
+
+## Create Deployments
+
+
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -770,12 +1342,25 @@ spec:
         name: tomcat
         ports:
         - containerPort: 8080
+```
 
-Expose the deployments as services:
+
+
+## Expose the deployments as services:
+
+
+```
 kubectl expose deployment dep1 --name cart --port 80
 kubectl expose deployment dep2 --name accounts --port 80
 kubectl expose deployment dep3 --name orders --port 80 --target-port 8080
-Create Ingress 
+```
+
+
+
+# Create Ingress 
+
+
+```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata: 
@@ -808,29 +1393,79 @@ spec:
         name: orders
         port: 
           number: 80
+```
 
-Explore the created ingress
+
+
+## Explore the created ingress
+
+
+```
 kubectl describe ingress ingress-demo
-Verify the Ingress
+```
+
+
+
+# Verify the Ingress
+
 Browse the application on any node on the cluster
+
+
+```
 http://localhost:<Port>/accounts 
 http://localhost:<Port>/cart 
 http://localhost:<Port>/orders
+```
 
-Monitoring and Autoscaling
-Metrics Server
-Install metrics server
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-Edit the deployment to accept insecure TLS connection to API server:
-kubectl edit -n kube-system deployment metrics-server
-Add below line under “Args” 
-        - --kubelet-insecure-tls
-Details output of resource utilisation of pods and nodes
-kubectl top pod
-kubectl top node
 
-Autoscale
-Create deployment with pod resource limits
+
+
+
+# Monitoring and Autoscaling
+
+
+# Metrics Server
+
+
+
+1. Install metrics server
+
+    ```
+    kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+    ```
+
+
+2. Edit the deployment to accept insecure TLS connection to API server:
+
+        ```
+        kubectl edit -n kube-system deployment metrics-server
+        ```
+
+
+
+        Add below line under “Args” 
+
+
+        ```
+                - --kubelet-insecure-tls
+        ```
+
+
+3. Details output of resource utilisation of pods and nodes
+    1. `kubectl top pod`
+    2. `kubectl top node`
+
+
+# 
+
+
+# Autoscale
+
+
+### Create deployment with pod resource limits
+
+
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -859,41 +1494,117 @@ spec:
           cpu: 100m
          limits: 
           cpu: 100m
+```
 
-Expose the deployment
+
+
+### Expose the deployment
+
+
+```
 kubectl expose deployment autoscale-dep --name autoscale-svc --port 80
-Note the service IP address
+```
+
+
+
+### Note the service IP address
+
+
+```
 kubectl get svc autoscale-svc
+
+
+```
 NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
 autoscale-svc   ClusterIP   10.111.85.241   <none>        80/TCP    12m
+```
 
-Enable Auto Scaling on the deployment
+
+
+### Enable Auto Scaling on the deployment
+
+
+```
 kubectl autoscale deployment autoscale-dep --min 3 --max 8 --cpu-percent 60
-List the HPA
+```
+
+
+
+### List the HPA
+
+
+```
 kubectl get hpa
-Generate load
+```
+
+
+
+### Generate load
+
 On a worker node, generate load on the deployed pods, so that they will autoscale
+
+
+```
 apt update
 apt-get install apache2-utils
 ab -n 5000000 -c 1000 http://<service IP address>/
+```
 
-Watch the autoscaling in action
+
+
+### Watch the autoscaling in action
+
 On master node:
+
+
+```
 watch kubectl top pods -l app=autoscale-dep
+```
+
+
 (press ctrl+c to exit the watch command)
 
 
-Security
-Authentication
-Create a User based on Certificates
+
+
+# Security
+
+
+# Authentication
+
+
+## Create a User based on Certificates
+
 [ generate key using 2048 algorithm]
+
+
+```
 openssl genrsa -out alice.key 2048
+```
+
+
 create cert(CSR) request and assign to user alice and out to a file
+
+
+```
 openssl req -new -key alice.key -subj "/CN=alice" -out alice.csr
+```
+
+
 send the CSR for signing encode using base64
+
+
+```
 cat alice.csr | base64
+```
+
+
 Remove all newlines from the encoded csr (generated above)
+
 Create csr.yaml and apply it
+
+
+```
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata: 
@@ -908,33 +1619,92 @@ spec:
  signerName: kubernetes.io/kube-apiserver-client
  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1ZUQ0NBVDBDQVFBd0VERU9NQXdHQTFVRUF3d0ZZV3hwWTJVd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQQpBNElCRHdBd2dnRUtBb0lCQVFDandyMmZIS2xJRm9TMzJONjMrcndnaTQ4RHhUWjRmRVZ6N0c5amY0UHJyQWxmCmRZRGNOaG5oWmN4amhFelRiMGRQNFZPckFSZll6WnNSWElndTF6YWdZMVBFRVZQRmh1QUVFYXBJYUs5ZHduMVYKR2FhalhSeUNjM1JtdjBOWkFWVzc1RENlVWJxNVBrNkJwTkZBczFlQ2pwd0E5bkkxY0YwbDE0OG8wNjJ0dmx4eApvWjhWNCtjYlkvc3lDdWF4alJhNmU5WlpwL05NRkNBcjd1QVZHNEx1WnR2b0sweXV2bVZUbit6L294SDlEeUVsCmdDNTlKS3ZWZjdFMVpmenBzdGxaSGdHbnNzYVN5UlZFdyttb2pINkIzbG0zQTFJaDZJOHVNb1NOenZNOVlHZzQKVjhJU05EK0s1QWt6dkZjMGNnM3pYMm5ldjB5U08rSHVRZVlaK3hRQkFnTUJBQUdnQURBTkJna3Foa2lHOXcwQgpBUXNGQUFPQ0FRRUFHRnJxUFZ4eDMwa1lINjRJZXVQUGVxRmZSM0NLVFhRRmwraGdWRzhpNHZrSTFtbkRhUzVCCmtMRTRZNEpoajFnL3N3aUxDQ1pYL2k0SGFyZ1k0aVZZWmFqQU5rYmdNNXZCUVZKaUZ5UlU5YlhMWmVRcWR6akwKZ0EwVTljcDU2VUNyaXNJMkVxNWlicS9MYmdrLzVDODVkblUwWWdIQXorYmlNMk92M2hTV05lbjAwVDdBYlpjeAowdzBWc1B5b2hnakJmSE5NSDl1Ti9EZEZqaldGcnFuRGFZa1A2VVpCQm8zYlpPcnR5bWxTSEFBMEhsemNtV3lxCkE3dVhraFArZXFFVnJGc2orNTF1TU1Dejk3MExYMGdoVXMzazNOaXRJaVFBQWRBMnhvaHJLbDBYMDFIeUR2V2EKRlNBQ2x0QzRWU284M3RuNWIzNWV3a3pjYUdqUEpnQ3BSZz09Ci0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLQo=
 
+```
 
 
 Approve the CSR
+
+
+```
 kubectl certificate approve csr-for-alice
+```
+
+
 Check the generated certificate
+
+
+```
 kubectl get csr csr-for-alice -o jsonpath='{.status.certificate}'
+```
+
+
 Save the certificate in a file
+
+
+```
 kubectl get csr csr-for-alice -o jsonpath='{.status.certificate}' | base64 --decode > alice.crt
+```
 
-Use the new user in kubernetes context
+
+
+## Use the new user in kubernetes context
+
 Set user in kube config
+
+
+```
 kubectl config set-credentials alice --client-certificate alice.crt --client-key alice.key
+```
+
+
 Create a new context to use alice user
-kubectl config set-context alice@kubernetes --user alice --cluster kubernetes 
+
+`kubectl config set-context alice@kubernetes --user alice --cluster kubernetes` 
+
 Set the new context as default
+
+
+```
 kubectl config use-context alice@kubernetes 
+```
+
+
 Check the default context
+
+
+```
 kubectl config get-contexts
+```
 
-Test the new user
+
+
+## Test the new user
+
+
+```
 kubectl get pods
-output:
-Error from server (Forbidden): pods is forbidden: User "alice" cannot list resource "pods" in API group "" in the namespace "default"
+```
 
-Authorization
-Roles
-Create developer role
+
+output:
+
+
+```
+Error from server (Forbidden): pods is forbidden: User "alice" cannot list resource "pods" in API group "" in the namespace "default"
+```
+
+
+
+# Authorization
+
+
+## Roles
+
+
+### Create developer role
+
+
+```
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -947,9 +1717,14 @@ rules:
 - apiGroups: [""]
   resources: ['ConfigMap']
   verbs: ['get','list','create','delete']
+```
 
 
-Rolebinding: Developer role to Alice user
+
+### Rolebinding: Developer role to Alice user
+
+
+```
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -963,21 +1738,35 @@ roleRef:
   kind: Role
   name: developer
   apiGroup: rbac.authorization.k8s.io
+```
 
 
-Test the access
-kubectl auth can-i delete pods
-kubectl auth can-i delete pods --as alice
-kubectl auth can-i create pods --as alice
-kubectl auth can-i get pods --as alice
-kubectl auth can-i delete namespaces --as alice
-Execute commands as Alice user
+
+### Test the access
+
+
+
+* `kubectl auth can-i delete pods`
+* `kubectl auth can-i delete pods --as alice`
+* `kubectl auth can-i create pods --as alice`
+* `kubectl auth can-i get pods --as alice`
+* `kubectl auth can-i delete namespaces --as alice`
+
+
+### Execute commands as Alice user
+
 kubectl config use-context alice@kubernetes 
+
 kubectl get pods
 
-ClusterRoles
-Create Cluster role and role binding
 
+## ClusterRoles
+
+
+### Create Cluster role and role binding
+
+
+```
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -1003,13 +1792,24 @@ roleRef:
   name: cluster-developer
   apiGroup: rbac.authorization.k8s.io
 
+```
 
 
 
-Test the access
+### Test the access
+
+
+```
 kubectl config use-context alice@kubernetes 
 kubectl get ns
-NetworkPolicies
+```
+
+
+
+# NetworkPolicies
+
+
+```
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -1027,12 +1827,24 @@ spec:
         app: simplilearn
    ports:
    - port: 80
+```
 
 
-Private Registry
+
+# Private Registry
+
 Create secret to store credentials to private registry
+
+
+```
 kubectl create secret docker-registry registry-credentials --docker-server private-registry.com --docker-username simplilearn --docker-password mysecretpassword
+```
+
+
 Use the credentials in a pod
+
+
+```
 apiVersion: v1                  
 kind: Pod                       
 metadata:                       
@@ -1043,19 +1855,27 @@ spec:
     image: private-registry.com/nginx
   imagePullSecrets:
   - name: registry-credentials
+```
 
-Static Pods
+
+
+# Static Pods
+
 On a worker Node:
-Append the below text at the end of the last line in the file “/etc/systemd/system/kubelet.service.d/10-kubeadm.conf”:
- --pod-manifest-path=/etc/kubelet.d/
-Make dir /etc/kubelet.d/
-Reload the configuration file 
-sudo systemctl daemon-reload
-Restart kubelet service
-sudo service kubelet restart
-Dump a pod manifest file in the above directory
-Check the pods by running kubectl commands on master node
 
+
+
+1. Append the below text at the end of the last line in the file “`/etc/systemd/system/kubelet.service.d/10-kubeadm.conf`”:
+    1.  `--pod-manifest-path=/etc/kubelet.d/`
+2. Make dir `/etc/kubelet.d/`
+3. Reload the configuration file` `
+    2. `sudo systemctl daemon-reload`
+4. Restart kubelet service
+    3. `sudo service kubelet restart`
+5. Dump a pod manifest file in the above directory
+6. Check the pods by running kubectl commands on master node
+
+    ```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -1064,9 +1884,18 @@ spec:
  containers: 
   - image: nginx
     name: nginx
+```
 
 
-InitContainers
+
+
+# 
+
+
+# InitContainers
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -1082,37 +1911,62 @@ spec:
   - name: init-myservice
     image: busybox:1.28
     command: ['sh', '-c', "sleep 25"]
+```
 
-Manage Node Workloads
-Cordon
-Cordon off worker2 node
-kubectl cordon <nodename>
-Observe the pods
-kubectl get pods -o wide
-Check node status
-kubectl get nodes
-Scale up a deployment
-kubectl scale deployment <deployment name> --replicas 10
-Observe the pods
-kubectl get pods -o wide
-Drain
-Drain worker2 Node
-kubectl drain worker2 --force --ignore-daemonsets 
-Observe the pods
-kubectl get pods -o wide
-Check node status
-kubectl get nodes
-Uncordon the node : 
-kubectl uncordon worker2
 
-Custom Scheduler
+
+# Manage Node Workloads
+
+
+# Cordon
+
+
+
+1. Cordon off worker2 node
+    1. `kubectl cordon &lt;nodename>`
+2. Observe the pods
+    2. `kubectl get pods -o wide`
+3. Check node status
+    3. `kubectl get nodes`
+4. Scale up a deployment
+    4. `kubectl scale deployment &lt;deployment name> --replicas 10`
+5. Observe the pods
+    5. `kubectl get pods -o wide`
+
+
+# Drain
+
+
+
+1. Drain worker2 Node
+    1. `kubectl drain worker2 --force --ignore-daemonsets `
+2. Observe the pods
+    2. `kubectl get pods -o wide`
+3. Check node status
+    3. `kubectl get nodes`
+4. Uncordon the node `: `
+    4. `kubectl uncordon worker2`
+
+
+# Custom Scheduler
+
 Take out the origin scheduler
+
+
+```
 mv /etc/kubernetes/manifests/kube-scheduler.yaml /etc/kubernetes/
+```
+
 
 Create file with below content (to deploy new scheduler):
 
+
+```
 /etc/kubernetes/manifests/my-kube-scheduler.yaml
 
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -1156,9 +2010,13 @@ spec:
         path: /healthz
         port: 10259
         scheme: HTTPS
+```
 
 
 Deploy an application that uses the new scheduler
+
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -1168,11 +2026,14 @@ spec:
   - image: nginx
     name: nginx
   schedulerName: my-kube-scheduler
+```
 
 
 
 
 Additional Topics (if time permits):
-k8s dashboard
-Helm charts <- difficult as time may not be enough
 
+
+
+1. k8s dashboard
+2. Helm charts &lt;- difficult as time may not be enough
